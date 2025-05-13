@@ -1,0 +1,35 @@
+[
+  {
+    "status": "sold",
+    "price": 5200,
+    "sold_at": "2025-05-11",
+    "shape": "round",
+    "carat": 1.2
+  },
+  {
+    "status": "available",
+    "price": 4300,
+    "shape": "oval",
+    "carat": 0.9
+  },
+  {
+    "status": "sold",
+    "price": 8900,
+    "sold_at": "2025-05-10",
+    "shape": "princess",
+    "carat": 1.8
+  },
+  {
+    "status": "sold",
+    "price": 3000,
+    "sold_at": "2025-05-13",
+    "shape": "emerald",
+    "carat": 1.0
+  },
+  {
+    "status": "available",
+    "price": 2500,
+    "shape": "round",
+    "carat": 0.75
+  }
+]
