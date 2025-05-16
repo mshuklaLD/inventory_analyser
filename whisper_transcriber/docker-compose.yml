@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  whisper-backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/app
+    restart: always

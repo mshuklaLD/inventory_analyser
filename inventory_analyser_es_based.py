@@ -3,10 +3,11 @@ import openai
 from elasticsearch import Elasticsearch
 import json
 from openai import OpenAI
+import requests
 
 # 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
 client = OpenAI(
-  api_key="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"
+  api_key="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"
 )
 
 # Connect to your hosted Elasticsearch
@@ -77,8 +78,63 @@ Just return the JSON query body only. Do NOT include "index" or "body" keys. Do 
 
     with st.spinner("Generating query..."):
         # Updated for OpenAI >= 1.0.0
+
+        # response = requests.post(
+        #     "https://api.aimlapi.com/v1/chat/completions",
+        #     headers={"Authorization":"Bearer 8fb1229d497744b3a32484e21b062d2f","Content-Type":"application/json"},
+        #     json={
+        #         "model":"gpt-4o-mini",
+        #         "frequency_penalty":1,
+        #         "logit_bias":{"ANY_ADDITIONAL_PROPERTY":1},
+        #         "logprobs":True,
+        #         "top_logprobs":1,
+        #         "max_tokens":512,
+        #         "max_completion_tokens":512,
+        #         "n":1,
+        #         "prediction":{"type":"content","content":"text"},
+        #         "presence_penalty":1,
+        #         "seed":1,
+        #         "messages":[{"role":"system","content":"text","name":"text"}],
+        #         "stream":False,
+        #         "stream_options":{"include_usage":True},
+        #         "top_p":1,
+        #         "temperature":1,
+        #         "stop":"text",
+        #         "tools":[
+        #             {
+        #                 "type":"function",
+        #                 "function":{"description":"text","name":"text","parameters":None,"strict":True,"required":["text"]}
+        #             }
+        #         ],
+        #         "tool_choice":"none",
+        #         "parallel_tool_calls":True,
+        #         "reasoning_effort":"low",
+        #         "response_format":{"type":"text"},
+        #         "audio":{"format":"wav","voice":"alloy"},
+        #         "modalities":["text"],
+        #         "web_search_options":{"search_context_size":"low","user_location":{"approximate":{"city":"text","country":"text","region":"text","timezone":"text"},"type":"approximate"}}
+        #     }
+        # )
+        # response = requests.post(
+        #     json={
+        #         "model":"gpt-4o-mini",
+        #         "messages":[
+        #             {
+        #                 "role":"user",
+
+        #                 # Insert your question for the model here, instead of Hello:
+        #                 "content":"Hello"
+        #             }
+        #         ]
+        #     }
+        # )
+
+        # data = response.json()
+
+        # data = response.json()
+
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4-turbo",
             messages=[
                 {
                     "role": "system",
