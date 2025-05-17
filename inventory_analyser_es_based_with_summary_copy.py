@@ -30,8 +30,8 @@ st.markdown(
 )
 
 # Deepseek API key
-# client = OpenAI(api_key="sk-d6e96434e6dc472fa023ce15e495f6eb", base_url="https://api.deepseek.com/v1")
-# whisper_client = OpenAI(api_key="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")
+# client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com/v1")
+# whisper_client = OpenAI(api_key=os.getenv("WHISPER_API_KEY"))
 
 # Connect to your hosted Elasticsearch
 es = Elasticsearch("http://localhost:9200")
