@@ -4,14 +4,14 @@ from elasticsearch import Elasticsearch
 import json
 from openai import OpenAI
 import pandas as pd
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 # 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
-client = OpenAI(
-#   api_key="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"
-  api_key="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"
-)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 # Deepseek API key
-# client = OpenAI(api_key="sk-d6e96434e6dc472fa023ce15e495f6eb", base_url="https://api.deepseek.com/v1")
+# client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com/v1")
 
 # Connect to your hosted Elasticsearch
 es = Elasticsearch("http://localhost:9200")

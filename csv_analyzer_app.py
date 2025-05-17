@@ -1,11 +1,11 @@
 import pandas as pd
 import streamlit as st
 from openai import OpenAI
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 # 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
-client = OpenAI(
-  api_key="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"
-)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # 🧑‍💻 Define function for local analysis (for the most common queries)
 def get_top_slowest_categories(df):

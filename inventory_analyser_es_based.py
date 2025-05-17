@@ -1,14 +1,13 @@
 import streamlit as st
-import openai
 from elasticsearch import Elasticsearch
 import json
 from openai import OpenAI
 import requests
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 # 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
-client = OpenAI(
-  api_key="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"
-)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Connect to your hosted Elasticsearch
 es = Elasticsearch("http://localhost:9200")

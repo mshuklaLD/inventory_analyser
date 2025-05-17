@@ -10,6 +10,11 @@ from audiorecorder import audiorecorder
 import io
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
+
+# 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 st.set_page_config(page_title="Liquid Diamonds Inventory Assistant", layout="centered")
 # Add logo and title
@@ -24,11 +29,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🧠 Set your OpenAI API key (securely with secrets or env var in real apps)
-client = OpenAI(
-#   api_key="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"
-  api_key="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"
-)
 # Deepseek API key
 # client = OpenAI(api_key="sk-d6e96434e6dc472fa023ce15e495f6eb", base_url="https://api.deepseek.com/v1")
 # whisper_client = OpenAI(api_key="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")
