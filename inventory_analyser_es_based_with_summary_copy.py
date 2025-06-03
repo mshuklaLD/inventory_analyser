@@ -23,7 +23,7 @@ st.markdown(
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1rem;">
         <img src="https://analytics.liquid.diamonds/assets/img/LD_logo_banner_long_dark_bg.png" alt="Liquid Diamonds Logo" width="400">
     </div>
-    <h1 style="text-align: center; ">Your Co-Pilot</h1>
+    <h1 style="text-align: center; ">Pricing Co-Pilot</h1>
     <h5 style="text-align: center; ">Ask a question about your diamond inventory or use the mic below.</h5>
     """,
     unsafe_allow_html=True
@@ -34,7 +34,7 @@ st.markdown(
 # whisper_client = OpenAI(api_key=os.getenv("WHISPER_API_KEY"))
 
 # Connect to your hosted Elasticsearch
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch("http://127.0.0.1:9200")
 # Check if the connection is successful
 if not es.ping(): 
     st.error("Elasticsearch connection failed.")

@@ -1,3 +1,7 @@
 streamlit
 openai>=1.0.0
 elasticsearch>=8.0.0
+pydub
+pandas
+numpy
+# add any other modules you're using
