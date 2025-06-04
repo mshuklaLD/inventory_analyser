@@ -5,3 +5,6 @@ pydub
 pandas
 numpy
 # add any other modules you're using
+streamlit-audiorecorder
+faster-whisper
+ffmpeg
