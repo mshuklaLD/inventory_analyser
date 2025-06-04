@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.13.4
+    container_name: es-nl
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+
+  whisper-backend:
+    build: ./whisper-transcriber/backend
+    container_name: whisper-backend
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./whisper-transcriber/backend:/app
+    restart: always
