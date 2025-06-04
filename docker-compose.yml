@@ -11,10 +11,10 @@ services:
       - "9200:9200"
 
   whisper-backend:
-    build: ./whisper-transcriber/backend
+    build: ./whisper_transcriber/backend
     container_name: whisper-backend
     ports:
       - "5001:5001"
     volumes:
-      - ./whisper-transcriber/backend:/app
+      - ./whisper_transcriber/backend:/app
     restart: always
