@@ -20,13 +20,16 @@ services:
     restart: always
 
   streamlit-app:
-    build: ./  # Assuming Dockerfile is in the root of your repo
+    build: ./  # Your Dockerfile is at root
     container_name: streamlit-app
     ports:
       - "8501:8501"
     volumes:
       - .:/app
-    working_dir: /app
     depends_on:
       - elasticsearch
-    command: streamlit run inventory_analyser_es_based_with_summary_copy.py --server.port=8501 --server.address=0.0.0.0  
+      - whisper-backend
+    command: >
+      streamlit run inventory_analyser_es_based_with_summary_copy.py
+      --server.port=8501
+      --server.address=0.0.0.0
