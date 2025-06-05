@@ -1,4 +1,5 @@
 
+import streamlit as st
 from elastic_transport import Transport
 
 Transport.default_headers = {
@@ -6,7 +7,7 @@ Transport.default_headers = {
     "Content-Type": "application/vnd.elasticsearch+json; compatible-with=8"
 }
 
-import streamlit as st
+
 from elasticsearch import Elasticsearch, NotFoundError
 
 import json
