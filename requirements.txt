@@ -8,3 +8,4 @@ numpy
 streamlit-audiorecorder
 faster-whisper
 python-dotenv
+imageio-ffmpeg

@@ -7,13 +7,13 @@ Transport.default_headers = {
     "Content-Type": "application/vnd.elasticsearch+json; compatible-with=8"
 }
 
-
 from elasticsearch import Elasticsearch, NotFoundError
 
 import json
 from openai import OpenAI
 import pandas as pd
 from pydub import AudioSegment
+from pydub.utils import which
 import tempfile
 import os
 from audiorecorder import audiorecorder
@@ -27,6 +27,7 @@ from elasticsearch.helpers import bulk
 
 import pandas as pd
 
+os.environ["PATH"] += os.pathsep + os.path.dirname(which("ffmpeg"))
 # Load and normalize data
 df = pd.read_csv("https://raw.githubusercontent.com/mshuklaLD/inventory_analyser/main/smaller_sample.csv")
 # Replace NaN values with "None" for specific fields (fluor, shade, milky)
