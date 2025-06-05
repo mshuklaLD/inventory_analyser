@@ -1,5 +1,5 @@
 import streamlit as st
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, NotFoundError
 import json
 from openai import OpenAI
 import pandas as pd
@@ -37,7 +37,13 @@ df.columns = (
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-es = Elasticsearch("http://34.41.92.221:9200")
+es = Elasticsearch(
+    "http://34.41.92.221:9200",
+    headers={
+        "Accept": "application/vnd.elasticsearch+json; compatible-with=8",
+        "Content-Type": "application/vnd.elasticsearch+json; compatible-with=8"
+    }
+)
 
 # Delete index if it exists
 try:
