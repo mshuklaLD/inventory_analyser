@@ -114,7 +114,7 @@ st.markdown(
 es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app")
 # Check if the connection is successful
 if not es.ping(): 
-    st.error("Elasticsearch connection failed.")
+    st.error("Elasticsearch connection failedvdffgfdgf.")
 
 column_descriptions = """
 Here is a description of key columns in the dataset:
