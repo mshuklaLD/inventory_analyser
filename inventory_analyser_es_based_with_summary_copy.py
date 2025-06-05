@@ -1,8 +1,8 @@
 import streamlit as st
-from elasticsearch import Elasticsearch, helpers
+from elasticsearch import Elasticsearch
 import json
 from openai import OpenAI
-from collections import Counter
+import pandas as pd
 from pydub import AudioSegment
 import tempfile
 import os
@@ -16,16 +16,7 @@ load_dotenv()
 from elasticsearch.helpers import bulk
 
 import pandas as pd
-def make_unique_columns(columns):
-    counts = Counter()
-    new_columns = []
-    for col in columns:
-        counts[col] += 1
-        if counts[col] > 1:
-            new_columns.append(f"{col}_{counts[col] - 1}")
-        else:
-            new_columns.append(col)
-    return new_columns
+
 # Load and normalize data
 df = pd.read_csv("smaller_sample.csv")
 # Replace NaN values with "None" for specific fields (fluor, shade, milky)
@@ -42,16 +33,26 @@ df.columns = (
     .str.replace("/", "_per_")
     .str.replace("%", "pct")
 )
-# df.columns = pd.io.parsers.ParserBase({'names': df.columns})._maybe_dedup_names(df.columns)
-df.columns = make_unique_columns(df.columns)
+
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
 es = Elasticsearch("http://34.41.92.221:9200")
-# es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200")
+
 # Delete index if it exists
-if es.indices.exists(index="inventory_nl"):
+try:
+    es.indices.get(index="inventory_nl")
+    print("Index exists. Deleting...")
     es.indices.delete(index="inventory_nl")
+except NotFoundError:
+    print("Index does not exist.")
+except Exception as e:
+    print("Unexpected error:", e)
+
+# if es.indices.exists(index="inventory_nl"):
+#     print(es.info())
+
+#     es.indices.delete(index="inventory_nl")
 
 # Create new index with mappings
 es.indices.create(index="inventory_nl", body={
@@ -120,11 +121,10 @@ st.markdown(
 
 # Connect to your hosted Elasticsearch
 # es = Elasticsearch("http://127.0.0.1:9200")
-es = Elasticsearch("http://34.41.92.221:9200")    
-# es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200")
+# es = Elasticsearch("http://34.41.92.221:9200")    
 # Check if the connection is successful
 if not es.ping(): 
-    st.error("Elasticsearch connection.")
+    st.error("Elasticsearch connection failed.")
 
 column_descriptions = """
 Here is a description of key columns in the dataset:
