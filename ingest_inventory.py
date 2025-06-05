@@ -23,7 +23,7 @@ df.columns = (
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch("http://34.41.92.221:9200")
 
 # Delete index if it exists
 if es.indices.exists(index="inventory_nl"):

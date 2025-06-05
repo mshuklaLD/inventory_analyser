@@ -1,7 +1,7 @@
 from elasticsearch import Elasticsearch, helpers
 import json
 
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch("http://34.41.92.221:9200")
 
 # Delete old index if it exists
 if es.indices.exists(index="inventory"):
