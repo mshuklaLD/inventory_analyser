@@ -186,7 +186,7 @@ with col2:
             # Send to Whisper backend
             print("Sending audio to Whisper backend...", audio_file)
             try:
-                res = requests.post("http://34.58.46.124:5001/transcribe", files={"audio": audio_file})
+                res = requests.post("http://34.41.92.221:5001/transcribe", files={"audio": audio_file})
                 res.raise_for_status()
                 transcription = res.json().get("text", "")
                 if not transcription:
