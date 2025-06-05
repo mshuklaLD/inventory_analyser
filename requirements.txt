@@ -1,6 +1,6 @@
 streamlit
 openai>=1.0.0
-elasticsearch>=8.0.0
+elasticsearch==8.13.0
 pydub
 pandas
 numpy
