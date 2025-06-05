@@ -37,8 +37,8 @@ df.columns = (
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-es = Elasticsearch("http://34.41.92.221:9200")
-
+# es = Elasticsearch("http://34.41.92.221:9200")
+es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app")
 # Delete index if it exists
 if es.indices.exists(index="inventory_nl"):
     es.indices.delete(index="inventory_nl")
@@ -110,7 +110,8 @@ st.markdown(
 
 # Connect to your hosted Elasticsearch
 # es = Elasticsearch("http://127.0.0.1:9200")
-es = Elasticsearch("http://34.41.92.221:9200")    
+# es = Elasticsearch("http://34.41.92.221:9200")    
+es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app")
 # Check if the connection is successful
 if not es.ping(): 
     st.error("Elasticsearch connection failed.")

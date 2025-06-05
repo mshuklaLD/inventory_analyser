@@ -7,3 +7,4 @@ services:
       - xpack.security.enabled=false
     ports:
       - "9200:9200"
+    restart: always
