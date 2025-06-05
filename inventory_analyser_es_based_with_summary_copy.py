@@ -38,7 +38,7 @@ records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
 # es = Elasticsearch("http://34.41.92.221:9200")
-es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app")
+es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200", verify_certs=False)
 # Delete index if it exists
 if es.indices.exists(index="inventory_nl"):
     es.indices.delete(index="inventory_nl")
@@ -111,10 +111,10 @@ st.markdown(
 # Connect to your hosted Elasticsearch
 # es = Elasticsearch("http://127.0.0.1:9200")
 # es = Elasticsearch("http://34.41.92.221:9200")    
-es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app")
+es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200", verify_certs=False)
 # Check if the connection is successful
 if not es.ping(): 
-    st.error("Elasticsearch connection failedvdffgfdgf.")
+    st.error("Elasticsearch connection.")
 
 column_descriptions = """
 Here is a description of key columns in the dataset:
