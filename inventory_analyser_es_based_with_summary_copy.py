@@ -34,7 +34,8 @@ st.markdown(
 # whisper_client = OpenAI(api_key=os.getenv("WHISPER_API_KEY"))
 
 # Connect to your hosted Elasticsearch
-es = Elasticsearch("http://127.0.0.1:9200")
+# es = Elasticsearch("http://127.0.0.1:9200")
+es = Elasticsearch("http://34.41.92.221:9200")    
 # Check if the connection is successful
 if not es.ping(): 
     st.error("Elasticsearch connection failed.")
@@ -185,7 +186,7 @@ with col2:
             # Send to Whisper backend
             print("Sending audio to Whisper backend...", audio_file)
             try:
-                res = requests.post("http://localhost:5001/transcribe", files={"audio": audio_file})
+                res = requests.post("http://34.58.46.124:5001/transcribe", files={"audio": audio_file})
                 res.raise_for_status()
                 transcription = res.json().get("text", "")
                 if not transcription:
