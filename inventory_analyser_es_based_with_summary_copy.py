@@ -28,7 +28,7 @@ from elasticsearch.helpers import bulk
 import pandas as pd
 
 # Load and normalize data
-df = pd.read_csv("smaller_sample.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/mshuklaLD/inventory_analyser/main/smaller_sample.csv")
 # Replace NaN values with "None" for specific fields (fluor, shade, milky)
 df['fluor'] = df['Fluor'].apply(lambda x: "None" if pd.isna(x) else x)
 df['shade'] = df['Shade'].apply(lambda x: "None" if pd.isna(x) else x)
