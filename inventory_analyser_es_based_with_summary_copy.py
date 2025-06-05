@@ -2,7 +2,7 @@ import streamlit as st
 from elasticsearch import Elasticsearch, helpers
 import json
 from openai import OpenAI
-import pandas as pd
+from collections import Counter
 from pydub import AudioSegment
 import tempfile
 import os
@@ -16,7 +16,16 @@ load_dotenv()
 from elasticsearch.helpers import bulk
 
 import pandas as pd
-
+def make_unique_columns(columns):
+    counts = Counter()
+    new_columns = []
+    for col in columns:
+        counts[col] += 1
+        if counts[col] > 1:
+            new_columns.append(f"{col}_{counts[col] - 1}")
+        else:
+            new_columns.append(col)
+    return new_columns
 # Load and normalize data
 df = pd.read_csv("smaller_sample.csv")
 # Replace NaN values with "None" for specific fields (fluor, shade, milky)
@@ -33,12 +42,13 @@ df.columns = (
     .str.replace("/", "_per_")
     .str.replace("%", "pct")
 )
-
+# df.columns = pd.io.parsers.ParserBase({'names': df.columns})._maybe_dedup_names(df.columns)
+df.columns = make_unique_columns(df.columns)
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-# es = Elasticsearch("http://34.41.92.221:9200")
-es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200", verify_certs=False)
+es = Elasticsearch("http://34.41.92.221:9200")
+# es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200")
 # Delete index if it exists
 if es.indices.exists(index="inventory_nl"):
     es.indices.delete(index="inventory_nl")
@@ -110,8 +120,8 @@ st.markdown(
 
 # Connect to your hosted Elasticsearch
 # es = Elasticsearch("http://127.0.0.1:9200")
-# es = Elasticsearch("http://34.41.92.221:9200")    
-es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200", verify_certs=False)
+es = Elasticsearch("http://34.41.92.221:9200")    
+# es = Elasticsearch("https://0f44-34-41-92-221.ngrok-free.app:9200")
 # Check if the connection is successful
 if not es.ping(): 
     st.error("Elasticsearch connection.")
