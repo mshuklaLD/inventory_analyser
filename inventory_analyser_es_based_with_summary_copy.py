@@ -1,6 +1,6 @@
 
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, WebRtcMode, ClientSettings
+from streamlit_webrtc import webrtc_streamer, WebRtcMode
 from elastic_transport import Transport
 
 Transport.default_headers = {
@@ -289,7 +289,6 @@ with col2:
         unsafe_allow_html=True
     )
 
-    from streamlit_webrtc import webrtc_streamer, WebRtcMode, ClientSettings
 
     client_settings = ClientSettings(
         media_stream_constraints={"audio": True, "video": False},
