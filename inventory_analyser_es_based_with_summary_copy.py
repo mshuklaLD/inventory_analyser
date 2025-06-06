@@ -21,7 +21,6 @@ import io
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
-
 load_dotenv()
 
 from elasticsearch.helpers import bulk

@@ -4,12 +4,11 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install system dependencies if needed
-
-RUN apt-get update && \
-    apt-get install -y build-essential libsndfile1 ffmpeg && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
-
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    build-essential \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/* 
 
 # Copy requirements and install
 COPY requirements.txt ./
