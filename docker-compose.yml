@@ -1,23 +1,23 @@
 version: '3.8'
 
-services:
-  elasticsearch:
-    image: elasticsearch:8.13.4
-    container_name: es-nl
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    ports:
-      - "9200:9200"
+# services:
+#   elasticsearch:
+#     image: elasticsearch:8.13.4
+#     container_name: es-nl
+#     environment:
+#       - discovery.type=single-node
+#       - xpack.security.enabled=false
+#     ports:
+#       - "9200:9200"
 
-  whisper-backend:
-    build: ./whisper_transcriber/backend
-    container_name: whisper-backend
-    ports:
-      - "5001:5001"
-    volumes:
-      - ./whisper_transcriber/backend:/app
-    restart: always
+#   whisper-backend:
+#     build: ./whisper_transcriber/backend
+#     container_name: whisper-backend
+#     ports:
+#       - "5001:5001"
+#     volumes:
+#       - ./whisper_transcriber/backend:/app
+#     restart: always
 
   streamlit-app:
     build: ./  # Your Dockerfile is at root
@@ -26,9 +26,9 @@ services:
       - "8501:8501"
     volumes:
       - .:/app
-    depends_on:
-      - elasticsearch
-      - whisper-backend
+    # depends_on:
+    #   - elasticsearch
+    #   - whisper-backend
     command: >
       streamlit run inventory_analyser_es_based_with_summary_copy.py
       --server.port=8501

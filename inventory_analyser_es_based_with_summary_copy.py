@@ -47,7 +47,7 @@ df.columns = (
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-es = Elasticsearch("http://34.55.51.47:9200")
+es = Elasticsearch("http://34.134.199.179:9200", timeout=30, max_retries=3, retry_on_timeout=True)
 
 # Delete index if it exists
 try:
@@ -282,7 +282,7 @@ with col2:
             # Send to Whisper backend
             print("Sending audio to Whisper backend...", audio_file)
             try:
-                res = requests.post("http://34.55.51.47:5001/transcribe", files={"audio": audio_file})
+                res = requests.post("http://34.134.199.179:5001/transcribe", files={"audio": audio_file})
                 res.raise_for_status()
                 transcription = res.json().get("text", "")
                 if not transcription:
