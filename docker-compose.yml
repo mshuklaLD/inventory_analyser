@@ -1,6 +1,6 @@
 version: '3.8'
 
-# services:
+services:
 #   elasticsearch:
 #     image: elasticsearch:8.13.4
 #     container_name: es-nl
