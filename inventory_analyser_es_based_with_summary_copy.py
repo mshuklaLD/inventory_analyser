@@ -47,7 +47,7 @@ df.columns = (
 records = df.to_dict(orient="records")
 
 # Connect to Elasticsearch
-es = Elasticsearch("http://elasticsearch:9200")
+es = Elasticsearch("http://34.55.51.47:9200")
 
 # Delete index if it exists
 try:
