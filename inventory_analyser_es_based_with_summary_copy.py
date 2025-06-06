@@ -10,6 +10,7 @@ Transport.default_headers = {
 
 from elasticsearch import Elasticsearch, NotFoundError
 
+import imageio_ffmpeg
 import json
 from openai import OpenAI
 import pandas as pd
@@ -21,7 +22,6 @@ import io
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
-import imageio_ffmpeg
 load_dotenv()
 
 from elasticsearch.helpers import bulk
@@ -260,6 +260,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="input-row">', unsafe_allow_html=True)
+ffmpeg_path = imageio_ffmpeg.get_ffmpeg_exe()
+os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg_path)
 
 col1, col2 = st.columns([10, 1])
 with col1:
@@ -269,8 +271,6 @@ with col2:
     audio = audiorecorder("🎙️", "🔴", key="recorder")
     if len(audio) > 0:
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-            ffmpeg_binary = imageio_ffmpeg.get_ffmpeg_exe()
-            os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg_binary)
             audio.export(f, format="wav")
             temp_wav_path = f.name
         # st.success("Transcribing...")
