@@ -6,6 +6,6 @@ pandas
 numpy
 # add any other modules you're using
 streamlit-audiorecorder
-ffmpeg
 faster-whisper
+ffmpeg
 python-dotenv
