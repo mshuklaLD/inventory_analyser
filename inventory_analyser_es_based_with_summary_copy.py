@@ -1,13 +1,15 @@
 
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, WebRtcMode
 from elastic_transport import Transport
 
 Transport.default_headers = {
     "Accept": "application/vnd.elasticsearch+json; compatible-with=8",
     "Content-Type": "application/vnd.elasticsearch+json; compatible-with=8"
 }
+
+
 from elasticsearch import Elasticsearch, NotFoundError
+
 import json
 from openai import OpenAI
 import pandas as pd
@@ -17,13 +19,9 @@ import os
 from audiorecorder import audiorecorder
 import io
 import requests
-import av
-import wave
-import imageio_ffmpeg
 from datetime import datetime
 from dotenv import load_dotenv
-import subprocess
-import base64
+
 load_dotenv()
 
 from elasticsearch.helpers import bulk
@@ -263,75 +261,37 @@ st.markdown("""
 
 st.markdown('<div class="input-row">', unsafe_allow_html=True)
 
-ffmpeg_binary = imageio_ffmpeg.get_ffmpeg_exe()
-os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg_binary)
 col1, col2 = st.columns([10, 1])
 with col1:
     query_text = st.text_input("Ask a question about your inventory:", value=st.session_state.query_input, key="query_input", label_visibility="collapsed")
 
 with col2:
-    st.markdown(
-        """
-        <style>
-        .record-button {
-            background-color: #f0f2f6;
-            padding: 0.4rem 0.6rem;
-            font-size: 1.5rem;
-            border-radius: 8px;
-            display: inline-block;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-        </style>
-        <div class="record-button">🎙️</div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-    client_settings = ClientSettings(
-        media_stream_constraints={"audio": True, "video": False},
-        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-    )
-
-    webrtc_ctx = webrtc_streamer(
-        key="speech-rec",
-        mode=WebRtcMode.SENDONLY,
-        client_settings=client_settings,
-        audio_receiver_size=1024,
-    )
-
-    if "audio_buffer" not in st.session_state:
-        st.session_state.audio_buffer = b""
-
-    if webrtc_ctx.audio_receiver:
-        audio_frames = webrtc_ctx.audio_receiver.get_frames(timeout=1)
-        for frame in audio_frames:
-            st.session_state.audio_buffer += frame.to_ndarray().tobytes()
-
-    if not webrtc_ctx.state.playing and st.session_state.audio_buffer:
-        st.success("Recording complete. Transcribing...")
-
+    audio = audiorecorder("🎙️", "🔴", key="recorder")
+    if len(audio) > 0:
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-            wav_path = f.name
-            with wave.open(f, "wb") as wf:
-                wf.setnchannels(1)
-                wf.setsampwidth(2)
-                wf.setframerate(48000)
-                wf.writeframes(st.session_state.audio_buffer)
+            audio.export(f, format="wav")
+            temp_wav_path = f.name
+        # st.success("Transcribing...")
 
-        with open(wav_path, "rb") as audio_file:
+        # TODO: Replace this with your Whisper API or local transcription
+        # dummy transcript:
+        # Playback in Streamlit
+        with open(temp_wav_path, "rb") as audio_file:
+            # st.audio(audio_file.read(), format="audio/wav")
+            audio_file.seek(0)  # rewind
+
+            # Send to Whisper backend
+            print("Sending audio to Whisper backend...", audio_file)
             try:
                 res = requests.post("http://34.41.92.221:5001/transcribe", files={"audio": audio_file})
                 res.raise_for_status()
                 transcription = res.json().get("text", "")
-                if transcription:
+                if not transcription:
+                    st.warning("No transcription text returned.")
+                else:
                     st.session_state.transcribed_text = transcription
                     st.session_state.transcription_ready = True
                     st.rerun()
-                else:
-                    st.warning("No transcription text returned.")
             except Exception as e:
                 st.error(f"Failed to transcribe audio: {e}")
         # Show transcription inside input

@@ -7,7 +7,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     libsndfile1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* 
+    && apt-get install -y ffmpeg && apt-get clean
 
 # Copy requirements and install
 COPY requirements.txt ./
